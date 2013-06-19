@@ -64,5 +64,31 @@ module SummerTest05
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    # Set timezone
+    config.time_zone = 'Tokyo'
+    config.active_record.default_timezone = :local
+
+    # 日本語化
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
+    config.i18n.default_locale = :ja
+
+    config.filter_parameters += [:password]
+    # generatorの設定
+    config.generators do |g|
+      g.orm :active_record
+      #g.template_engine :haml
+      # scaffoldをgenerateするとDraperが自動で生成されます。
+      # モデルがないとエラーが発生する可能性があるので注意してください
+    end
+
+    # load original validator(オリジナルのバリデーターがある場合のみ)
+    config.autoload_paths += %W(#{config.root}/lib/validators)
+
+    # libファイルの自動読み込み
+    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]    
+
+    # Enable escaping HTML in JSON.
+    config.active_support.escape_html_entities_in_json = true
   end
 end
